@@ -1,17 +1,20 @@
-import React from "react";
-// import it
+import React, { useEffect, useRef } from "react";
 import useTypingGame from "react-typing-game-hook";
 
 const TypingGameComponent = () => {
-  // Call the hook
+  const textEl = useRef(null);
   const {
     states: { chars, charsState },
     actions: { insertTyping, resetTyping, deleteTyping },
   } = useTypingGame("Click on me and start typing away!");
 
-  // Capture and display!
+  useEffect(() => {
+    textEl.current.focus();
+  }, []);
+
   return (
     <h1
+      ref={textEl}
       onKeyDown={(e) => {
         const key = e.key;
         if (key === "Escape") {
@@ -37,4 +40,5 @@ const TypingGameComponent = () => {
     </h1>
   );
 };
+
 export default TypingGameComponent;
