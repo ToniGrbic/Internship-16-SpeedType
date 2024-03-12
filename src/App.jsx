@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import NewGame from "./pages/NewGame";
 import Practice from "./pages/Practice";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <Route path="/new-game" element={<NewGame />} />
         <Route path="/practice" element={<Practice />} />
       </Route>
-      <Route path="*" element={<div>404</div>} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
