@@ -1,30 +1,53 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useDialog, DIALOG } from "../../providers/DialogProvider";
-import { Button } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import DialogSwitch from "../Dialogs/DialogSwitch";
 
 const Header = () => {
-  const { open } = useDialog();
+  const navigate = useNavigate();
+  const { open, close } = useDialog();
+  const [value, setValue] = useState(0);
 
-  const handleNewGame = (e) => {
-    open(DIALOG.NEW_GAME);
+  const handleSubmit = (route) => {
+    close();
+    navigate(route);
+  };
+  const handleNewGame = () => {
+    open(DIALOG.NEW_GAME, { onSubmit: () => handleSubmit("/new-game") });
   };
 
-  const handlePractice = (e) => {
-    open(DIALOG.PRACTICE);
+  const handlePractice = () => {
+    open(DIALOG.PRACTICE, { onSubmit: () => handleSubmit("/practice") });
   };
+
+  const options = [() => navigate("/"), handlePractice, handleNewGame];
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    options[newValue]();
+  };
+
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
 
   return (
     <>
-      <div>
-        <Button onClick={handleNewGame} color="inherit">
-          New Game
-        </Button>
-        <Button onClick={handlePractice} color="inherit">
-          Practice
-        </Button>
-      </div>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+        >
+          <Tab label="Home" {...a11yProps(0)} />
+          <Tab label="Practice" {...a11yProps(1)} />
+          <Tab label="New Game" {...a11yProps(2)} />
+        </Tabs>
+      </Box>
       <DialogSwitch />
       <Outlet />
     </>
