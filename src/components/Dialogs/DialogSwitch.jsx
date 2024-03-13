@@ -5,7 +5,7 @@ import PracticeDialog from "./PracticeDialog";
 
 const DialogSwitch = () => {
   const { activeDialog, additionalProps, close } = useDialog();
-  console.log(activeDialog);
+
   return (
     <>
       <NewGameDialog
