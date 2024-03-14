@@ -1,0 +1,7 @@
+.currentLetter {
+  border-right: solid 1px #000;
+}
+
+.typingText {
+  padding: 1rem;
+}
