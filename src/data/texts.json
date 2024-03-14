@@ -1,0 +1,42 @@
+[
+  {
+    "id": 0,
+    "text": "This is a sample text for id 1. It is designed to be less than 200 characters long."
+  },
+  {
+    "id": 1,
+    "text": "This is a sample text for id 2. It is designed to be less than 200 characters long."
+  },
+  {
+    "id": 2,
+    "text": "This is a sample text for id 3. It is designed to be less than 200 characters long."
+  },
+  {
+    "id": 3,
+    "text": "This is a sample text for id 4. It is designed to be less than 200 characters long."
+  },
+  {
+    "id": 4,
+    "text": "This is a sample text for id 5. It is designed to be less than 200 characters long."
+  },
+  {
+    "id": 5,
+    "text": "This is a sample text for id 6. It is designed to be less than 200 characters long."
+  },
+  {
+    "id": 6,
+    "text": "This is a sample text for id 7. It is designed to be less than 200 characters long."
+  },
+  {
+    "id": 7,
+    "text": "This is a sample text for id 8. It is designed to be less than 200 characters long."
+  },
+  {
+    "id": 8,
+    "text": "This is a sample text for id 9. It is designed to be less than 200 characters long."
+  },
+  {
+    "id": 9,
+    "text": "This is a sample text for id 10. It is designed to be less than 200 characters long."
+  }
+]
