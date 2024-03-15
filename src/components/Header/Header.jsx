@@ -1,31 +1,39 @@
 import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDialog, DIALOG } from "../../providers/DialogProvider";
+import { useGame } from "../../providers/GameProvider";
 import { Box, Tab, Tabs } from "@mui/material";
 import DialogSwitch from "../Dialogs/DialogSwitch";
+import { practiceDialogText } from "../../utils/constants";
 
 const Header = () => {
   const navigate = useNavigate();
   const { open, close } = useDialog();
+  const { selectTexts } = useGame();
   const [value, setValue] = useState(0);
 
   const handleSubmit = (route) => {
     close();
     navigate(route);
   };
-  const handleNewGame = () => {
+
+  const openNewGame = () => {
+    selectTexts();
     open(DIALOG.NEW_GAME, { onSubmit: () => handleSubmit("/new-game") });
   };
 
-  const handlePractice = () => {
-    open(DIALOG.PRACTICE, { onSubmit: () => handleSubmit("/practice") });
+  const openPractice = () => {
+    open(DIALOG.CONFIRMATION, {
+      onSubmit: () => handleSubmit("/practice"),
+      text: practiceDialogText,
+    });
   };
 
-  const options = [() => navigate("/"), handlePractice, handleNewGame];
+  const options = [() => navigate("/"), openPractice, openNewGame];
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-    options[newValue]();
+  const handleChange = (event, index) => {
+    setValue(index);
+    options[index]();
   };
 
   function a11yProps(index) {
