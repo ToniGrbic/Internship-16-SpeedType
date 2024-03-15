@@ -18,6 +18,14 @@ const TypingGameComponent = () => {
     actions: { insertTyping, resetTyping, deleteTyping },
   } = useTypingGame(text);
 
+  const openNewGameDialog = () => {
+    open(DIALOG.NEW_GAME, {
+      onSubmit: () => {
+        close();
+      },
+    });
+  };
+
   useEffect(() => {
     textEl.current.focus();
   }, [level]);
@@ -35,11 +43,7 @@ const TypingGameComponent = () => {
       open(DIALOG.RESULTS, {
         onSubmit: () => {
           selectTexts();
-          open(DIALOG.NEW_GAME, {
-            onSubmit: () => {
-              close();
-            },
-          });
+          openNewGameDialog();
         },
       });
     }
