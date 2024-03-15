@@ -9,7 +9,7 @@ import { numberOfTexts } from "../../utils/textPicker";
 
 const TypingGameComponent = () => {
   const textEl = useRef(null);
-  const { text: typingText, level, nextLevelClick } = useGame();
+  const { text: typingText, level, nextLevelClick, selectTexts } = useGame();
   const { id, text } = typingText;
   const { open, close } = useDialog();
 
@@ -30,6 +30,17 @@ const TypingGameComponent = () => {
           close();
         },
         text: newLevelDialogText,
+      });
+    } else if (phase === PhaseType.Ended && level === numberOfTexts - 1) {
+      open(DIALOG.RESULTS, {
+        onSubmit: () => {
+          selectTexts();
+          open(DIALOG.NEW_GAME, {
+            onSubmit: () => {
+              close();
+            },
+          });
+        },
       });
     }
   }, [phase]);
