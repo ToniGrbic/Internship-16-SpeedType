@@ -2,17 +2,11 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 import ArrowForward from "@mui/icons-material/ArrowForward";
 import TypingGameComponent from "../../components/TypingGameComponent";
-import { numberOfTexts, randomlySelectTexts } from "../../utils/textPicker";
+import { numberOfTexts } from "../../utils/textPicker";
+import { useGame } from "../../providers/GameProvider";
 
 const NewGame = () => {
-  const selectedTexts = randomlySelectTexts();
-  const [text, setText] = useState(selectedTexts[0]);
-  const [counter, setCounter] = useState(0);
-
-  const handleClick = () => {
-    setCounter((prev) => prev + 1);
-    setText(selectedTexts[counter + 1]);
-  };
+  const { text, level, selectedTexts, nextLevelClick } = useGame();
   return (
     <>
       <div>
@@ -22,9 +16,9 @@ const NewGame = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={handleClick}
+          onClick={() => nextLevelClick(selectedTexts)}
           endIcon={<ArrowForward />}
-          disabled={counter === numberOfTexts - 1}
+          disabled={level === numberOfTexts - 1}
         >
           next
         </Button>
