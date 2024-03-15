@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import useTypingGame, { PhaseType } from "react-typing-game-hook";
 import styles from "./index.module.css";
+import NextButton from "../Buttons/NextButton/NextButton";
 import { useGame } from "../../providers/GameProvider";
 import { useDialog, DIALOG } from "../../providers/DialogProvider";
 import { newLevelDialogText } from "../../utils/constants";
@@ -19,7 +20,7 @@ const TypingGameComponent = () => {
 
   useEffect(() => {
     textEl.current.focus();
-  }, []);
+  }, [level]);
 
   useEffect(() => {
     if (phase === PhaseType.Ended && level !== numberOfTexts - 1) {
@@ -46,26 +47,29 @@ const TypingGameComponent = () => {
   };
 
   return (
-    <h1
-      className={styles.typingText}
-      ref={textEl}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-    >
-      {chars.split("").map((char, index) => {
-        let state = charsState[index];
-        let color = state === 0 ? "black" : state === 1 ? "green" : "red";
-        return (
-          <span
-            key={index + char}
-            style={{ color, marginLeft: "1px" }}
-            className={currIndex === index ? styles.currentLetter : ""}
-          >
-            {char}
-          </span>
-        );
-      })}
-    </h1>
+    <>
+      <h1
+        className={styles.typingText}
+        ref={textEl}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+      >
+        {chars.split("").map((char, index) => {
+          let state = charsState[index];
+          let color = state === 0 ? "black" : state === 1 ? "green" : "red";
+          return (
+            <span
+              key={index + char}
+              style={{ color, marginLeft: "1px" }}
+              className={currIndex === index ? styles.currentLetter : ""}
+            >
+              {char}
+            </span>
+          );
+        })}
+      </h1>
+      <NextButton phase={phase} />
+    </>
   );
 };
 
