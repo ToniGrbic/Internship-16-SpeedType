@@ -1,18 +1,37 @@
 import React, { useEffect, useRef } from "react";
-import useTypingGame from "react-typing-game-hook";
+import useTypingGame, { PhaseType } from "react-typing-game-hook";
 import styles from "./index.module.css";
+import { useGame } from "../../providers/GameProvider";
+import { useDialog, DIALOG } from "../../providers/DialogProvider";
+import { newLevelDialogText } from "../../utils/constants";
+import { numberOfTexts } from "../../utils/textPicker";
 
-const TypingGameComponent = ({ typingText }) => {
+const TypingGameComponent = () => {
   const textEl = useRef(null);
+  const { text: typingText, level, nextLevelClick } = useGame();
   const { id, text } = typingText;
+  const { open, close } = useDialog();
+
   const {
-    states: { chars, charsState, currIndex },
+    states: { chars, charsState, currIndex, phase },
     actions: { insertTyping, resetTyping, deleteTyping },
   } = useTypingGame(text);
 
   useEffect(() => {
     textEl.current.focus();
   }, []);
+
+  useEffect(() => {
+    if (phase === PhaseType.Ended && level !== numberOfTexts - 1) {
+      open(DIALOG.CONFIRMATION, {
+        onSubmit: () => {
+          nextLevelClick();
+          close();
+        },
+        text: newLevelDialogText,
+      });
+    }
+  }, [phase]);
 
   const handleKeyDown = (e) => {
     const key = e.key;

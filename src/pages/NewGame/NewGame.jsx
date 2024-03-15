@@ -6,11 +6,11 @@ import { numberOfTexts } from "../../utils/textPicker";
 import { useGame } from "../../providers/GameProvider";
 
 const NewGame = () => {
-  const { text, level, selectedTexts, nextLevelClick } = useGame();
+  const { level, selectedTexts, nextLevelClick } = useGame();
   return (
     <>
       <div>
-        <TypingGameComponent typingText={text} />
+        <TypingGameComponent />
       </div>
       <div>
         <Button

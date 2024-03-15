@@ -27,7 +27,7 @@ const GameProvider = ({ children }) => {
     setText(selectedTexts[0]);
   };
 
-  const nextLevelClick = (selectedTexts) => {
+  const nextLevelClick = () => {
     setLevel((prev) => prev + 1);
     setText(selectedTexts[level + 1]);
   };
