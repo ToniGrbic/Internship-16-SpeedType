@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
 
 export const DIALOG = {
-  PRACTICE: "PRACTICE",
+  CONFIRMATION: "CONFIRMATION",
   NEW_GAME: "NEW_GAME",
   RESULTS: "RESULTS",
   NEW_LEVEL: "NEW_LEVEL",
 };
+
 const defaultContext = {
   activeDialog: null,
   open: () => {},
