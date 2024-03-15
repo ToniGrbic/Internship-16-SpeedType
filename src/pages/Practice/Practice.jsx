@@ -1,11 +1,7 @@
 import React from "react";
-import TypingGameComponent from "../../components/TypingGameComponent";
+
 const Practice = () => {
-  return (
-    <div>
-      <TypingGameComponent />
-    </div>
-  );
+  return <div>Practice</div>;
 };
 
 export default Practice;
