@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
 
-const PracticeDialog = ({ isOpen, onClose, onSubmit }) => {
+const ConfirmationDialog = ({ isOpen, onClose, onSubmit, text }) => {
   return (
     <Dialog open={isOpen}>
-      <DialogTitle>Do you want to enter Practice mode?</DialogTitle>
+      <DialogTitle>{text}</DialogTitle>
       <DialogActions>
         <Button onClick={onSubmit} color="primary">
           YES
@@ -17,4 +17,4 @@ const PracticeDialog = ({ isOpen, onClose, onSubmit }) => {
   );
 };
 
-export default PracticeDialog;
+export default ConfirmationDialog;

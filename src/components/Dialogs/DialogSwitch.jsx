@@ -1,7 +1,7 @@
 import React from "react";
 import { useDialog, DIALOG } from "../../providers/DialogProvider";
 import NewGameDialog from "./NewGameDialog";
-import PracticeDialog from "./PracticeDialog";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 const DialogSwitch = () => {
   const { activeDialog, additionalProps, close } = useDialog();
@@ -13,8 +13,8 @@ const DialogSwitch = () => {
         onClose={close}
         {...additionalProps}
       />
-      <PracticeDialog
-        isOpen={activeDialog === DIALOG.PRACTICE}
+      <ConfirmationDialog
+        isOpen={activeDialog === DIALOG.CONFIRMATION}
         onClose={close}
         {...additionalProps}
       />
