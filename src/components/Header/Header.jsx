@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDialog, DIALOG } from "../../providers/DialogProvider";
-import { useGame } from "../../providers/GameProvider";
+import { useGame, GAME_TYPE } from "../../providers/GameProvider";
 import { Box, Tab, Tabs } from "@mui/material";
 import DialogSwitch from "../Dialogs/DialogSwitch";
 import { practiceDialogText } from "../../utils/constants";
@@ -9,17 +9,25 @@ import { practiceDialogText } from "../../utils/constants";
 const Header = () => {
   const navigate = useNavigate();
   const { open, close } = useDialog();
-  const { selectTexts } = useGame();
+  const { selectTexts, setGameType } = useGame();
   const [value, setValue] = useState(0);
 
-  const handleSubmit = (route) => {
+  const handleSubmit = (route, gameType) => {
     close();
+    setGameType(gameType);
     navigate(route);
   };
 
   const openNewGame = () => {
     selectTexts();
-    open(DIALOG.NEW_GAME, { onSubmit: () => handleSubmit("/new-game") });
+    open(DIALOG.NEW_GAME, {
+      onSubmitRegular: () => {
+        handleSubmit("/new-game", GAME_TYPE.REGULAR);
+      },
+      onSubmitInstantDeath: () => {
+        handleSubmit("/new-game", GAME_TYPE.INSTANT_DEATH);
+      },
+    });
   };
 
   const openPractice = () => {

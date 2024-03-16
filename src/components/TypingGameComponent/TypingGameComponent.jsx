@@ -3,7 +3,7 @@ import useTypingGame, { PhaseType } from "react-typing-game-hook";
 import styles from "./index.module.css";
 import NextButton from "../Buttons/NextButton/NextButton";
 import ReplayIcon from "@mui/icons-material/Replay";
-import { useGame } from "../../providers/GameProvider";
+import { useGame, GAME_TYPE } from "../../providers/GameProvider";
 import { useDialog, DIALOG } from "../../providers/DialogProvider";
 import { newLevelDialogText } from "../../utils/constants";
 import { numberOfTexts } from "../../utils/textPicker";
@@ -13,10 +13,12 @@ const TypingGameComponent = () => {
   const textEl = useRef(null);
   const {
     level,
+    gameType,
     text: typingText,
     nextLevelClick,
     selectTexts,
     resetGame,
+    setGameType,
   } = useGame();
 
   const { id, text } = typingText;
@@ -27,11 +29,22 @@ const TypingGameComponent = () => {
     actions: { insertTyping, resetTyping, deleteTyping },
   } = useTypingGame(text);
 
+  const onSubmitRegular = () => {
+    setGameType(GAME_TYPE.REGULAR);
+    resetGame();
+    selectTexts();
+  };
+
+  const onSubmitInstantDeath = () => {
+    setGameType(GAME_TYPE.INSTANT_DEATH);
+    resetGame();
+    selectTexts();
+  };
+
   const openNewGameDialog = () => {
     open(DIALOG.NEW_GAME, {
-      onSubmit: () => {
-        close();
-      },
+      onSubmitRegular,
+      onSubmitInstantDeath,
     });
   };
 
@@ -45,6 +58,7 @@ const TypingGameComponent = () => {
       insertTyping(key);
     }
     e.preventDefault();
+    console.log(charsState);
   };
 
   useEffect(() => {
@@ -64,9 +78,8 @@ const TypingGameComponent = () => {
     } else {
       open(DIALOG.RESULTS, {
         onSubmit: () => {
-          selectTexts();
           openNewGameDialog();
-          resetGame();
+          close();
         },
       });
     }
@@ -74,7 +87,9 @@ const TypingGameComponent = () => {
 
   return (
     <>
-      <h1
+      <h1>Game mode: {gameType}</h1>
+      <h1>Level: {level + 1}</h1>
+      <h2
         className={styles.typingText}
         ref={textEl}
         onKeyDown={handleKeyDown}
@@ -93,7 +108,7 @@ const TypingGameComponent = () => {
             </span>
           );
         })}
-      </h1>
+      </h2>
       <Button>
         <ReplayIcon onClick={resetTyping} />
       </Button>

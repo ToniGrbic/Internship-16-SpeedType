@@ -10,7 +10,12 @@ import {
 
 import CloseIcon from "@mui/icons-material/Close";
 
-const NewGameDialog = ({ isOpen, onClose, onSubmit }) => {
+const NewGameDialog = ({
+  isOpen,
+  onClose,
+  onSubmitRegular,
+  onSubmitInstantDeath,
+}) => {
   return (
     <Dialog open={isOpen}>
       <IconButton
@@ -22,10 +27,10 @@ const NewGameDialog = ({ isOpen, onClose, onSubmit }) => {
       <DialogTitle>New Game</DialogTitle>
       <DialogContent>Select game mode</DialogContent>
       <DialogActions>
-        <Button onClick={onSubmit} color="secondary">
+        <Button onClick={onSubmitRegular} color="secondary">
           Regular
         </Button>
-        <Button onClick={onSubmit} color="primary">
+        <Button onClick={onSubmitInstantDeath} color="primary">
           Instant death
         </Button>
       </DialogActions>

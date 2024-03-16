@@ -7,10 +7,17 @@ const defaultContext = {
   level: 0,
   totalWordsPerMinute: 0,
   gameWordsPerMinute: 0,
+  gameType: "",
   nextLevelClick: () => {},
   calculateGameWordsPerMinute: () => {},
   selectTexts: () => {},
   resetGame: () => {},
+  setGameType: () => {},
+};
+
+export const GAME_TYPE = {
+  REGULAR: "Regular",
+  INSTANT_DEATH: "Instant Death",
 };
 
 const GameContext = React.createContext(defaultContext);
@@ -21,6 +28,7 @@ const GameProvider = ({ children }) => {
   const [level, setLevel] = useState(0);
   const [totalWordsPerMinute, setTotalWordsPerMinute] = useState(0);
   const [gameWordsPerMinute, setGameWordsPerMinute] = useState(0);
+  const [gameType, setGameType] = useState(GAME_TYPE.REGULAR);
 
   const selectTexts = () => {
     const selectedTexts = randomlySelectTexts();
@@ -57,10 +65,12 @@ const GameProvider = ({ children }) => {
         level,
         totalWordsPerMinute,
         gameWordsPerMinute,
+        gameType,
         nextLevelClick,
         calculateGameWordsPerMinute,
         selectTexts,
         resetGame,
+        setGameType,
       }}
     >
       {children}
