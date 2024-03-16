@@ -2,14 +2,23 @@ import React, { useEffect, useRef } from "react";
 import useTypingGame, { PhaseType } from "react-typing-game-hook";
 import styles from "./index.module.css";
 import NextButton from "../Buttons/NextButton/NextButton";
+import ReplayIcon from "@mui/icons-material/Replay";
 import { useGame } from "../../providers/GameProvider";
 import { useDialog, DIALOG } from "../../providers/DialogProvider";
 import { newLevelDialogText } from "../../utils/constants";
 import { numberOfTexts } from "../../utils/textPicker";
+import { Button } from "@mui/material";
 
 const TypingGameComponent = () => {
   const textEl = useRef(null);
-  const { text: typingText, level, nextLevelClick, selectTexts } = useGame();
+  const {
+    level,
+    text: typingText,
+    nextLevelClick,
+    selectTexts,
+    resetGame,
+  } = useGame();
+
   const { id, text } = typingText;
   const { open, close } = useDialog();
 
@@ -26,29 +35,6 @@ const TypingGameComponent = () => {
     });
   };
 
-  useEffect(() => {
-    textEl.current.focus();
-  }, [level]);
-
-  useEffect(() => {
-    if (phase === PhaseType.Ended && level !== numberOfTexts - 1) {
-      open(DIALOG.CONFIRMATION, {
-        onSubmit: () => {
-          nextLevelClick();
-          close();
-        },
-        text: newLevelDialogText,
-      });
-    } else if (phase === PhaseType.Ended && level === numberOfTexts - 1) {
-      open(DIALOG.RESULTS, {
-        onSubmit: () => {
-          selectTexts();
-          openNewGameDialog();
-        },
-      });
-    }
-  }, [phase]);
-
   const handleKeyDown = (e) => {
     const key = e.key;
     if (key === "Escape") {
@@ -60,6 +46,31 @@ const TypingGameComponent = () => {
     }
     e.preventDefault();
   };
+
+  useEffect(() => {
+    textEl.current.focus();
+  }, [level]);
+
+  useEffect(() => {
+    if (phase !== PhaseType.Ended) return;
+    if (level !== numberOfTexts - 1) {
+      open(DIALOG.CONFIRMATION, {
+        onSubmit: () => {
+          nextLevelClick();
+          close();
+        },
+        text: newLevelDialogText,
+      });
+    } else {
+      open(DIALOG.RESULTS, {
+        onSubmit: () => {
+          selectTexts();
+          openNewGameDialog();
+          resetGame();
+        },
+      });
+    }
+  }, [phase]);
 
   return (
     <>
@@ -74,7 +85,7 @@ const TypingGameComponent = () => {
           let color = state === 0 ? "black" : state === 1 ? "green" : "red";
           return (
             <span
-              key={index + char}
+              key={index + id}
               style={{ color, marginLeft: "1px" }}
               className={currIndex === index ? styles.currentLetter : ""}
             >
@@ -83,6 +94,9 @@ const TypingGameComponent = () => {
           );
         })}
       </h1>
+      <Button>
+        <ReplayIcon onClick={resetTyping} />
+      </Button>
       <NextButton phase={phase} />
     </>
   );
