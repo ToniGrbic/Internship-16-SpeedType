@@ -10,6 +10,7 @@ const defaultContext = {
   nextLevelClick: () => {},
   calculateGameWordsPerMinute: () => {},
   selectTexts: () => {},
+  resetGame: () => {},
 };
 
 const GameContext = React.createContext(defaultContext);
@@ -25,6 +26,11 @@ const GameProvider = ({ children }) => {
     const selectedTexts = randomlySelectTexts();
     setSelectedTexts(selectedTexts);
     setText(selectedTexts[0]);
+  };
+
+  const resetGame = () => {
+    setLevel(0);
+    setGameWordsPerMinute(0);
   };
 
   const nextLevelClick = () => {
@@ -54,6 +60,7 @@ const GameProvider = ({ children }) => {
         nextLevelClick,
         calculateGameWordsPerMinute,
         selectTexts,
+        resetGame,
       }}
     >
       {children}
