@@ -1,5 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import useTypingGame, { PhaseType } from "react-typing-game-hook";
+import useTypingGame, {
+  PhaseType,
+  CharStateType,
+} from "react-typing-game-hook";
 import styles from "./index.module.css";
 import NextButton from "../Buttons/NextButton/NextButton";
 import ReplayIcon from "@mui/icons-material/Replay";
@@ -27,24 +30,37 @@ const TypingGameComponent = () => {
   const {
     states: { chars, charsState, currIndex, phase },
     actions: { insertTyping, resetTyping, deleteTyping },
-  } = useTypingGame(text);
+  } = useTypingGame(text, { skipCurrentWordOnSpace: false });
 
-  const onSubmitRegular = () => {
-    setGameType(GAME_TYPE.REGULAR);
+  const onSubmit = (gameType) => {
+    close();
+    setGameType(gameType);
     resetGame();
     selectTexts();
   };
 
-  const onSubmitInstantDeath = () => {
-    setGameType(GAME_TYPE.INSTANT_DEATH);
-    resetGame();
-    selectTexts();
+  const openResultsDialog = () => {
+    open(DIALOG.RESULTS, {
+      onSubmit: () => {
+        openNewGameDialog();
+      },
+    });
   };
 
   const openNewGameDialog = () => {
     open(DIALOG.NEW_GAME, {
-      onSubmitRegular,
-      onSubmitInstantDeath,
+      onSubmitRegular: () => onSubmit(GAME_TYPE.REGULAR),
+      onSubmitInstantDeath: () => onSubmit(GAME_TYPE.INSTANT_DEATH),
+    });
+  };
+
+  const openConfirmationDialog = () => {
+    open(DIALOG.CONFIRMATION, {
+      onSubmit: () => {
+        nextLevelClick();
+        close();
+      },
+      text: newLevelDialogText,
     });
   };
 
@@ -58,7 +74,6 @@ const TypingGameComponent = () => {
       insertTyping(key);
     }
     e.preventDefault();
-    console.log(charsState);
   };
 
   useEffect(() => {
@@ -66,23 +81,16 @@ const TypingGameComponent = () => {
   }, [level]);
 
   useEffect(() => {
+    if (gameType !== GAME_TYPE.INSTANT_DEATH) return;
+    if (!charsState.includes(CharStateType.Incorrect)) return;
+    openResultsDialog();
+  }, [charsState]);
+
+  useEffect(() => {
     if (phase !== PhaseType.Ended) return;
     if (level !== numberOfTexts - 1) {
-      open(DIALOG.CONFIRMATION, {
-        onSubmit: () => {
-          nextLevelClick();
-          close();
-        },
-        text: newLevelDialogText,
-      });
-    } else {
-      open(DIALOG.RESULTS, {
-        onSubmit: () => {
-          openNewGameDialog();
-          close();
-        },
-      });
-    }
+      openConfirmationDialog();
+    } else openResultsDialog();
   }, [phase]);
 
   return (
@@ -96,8 +104,8 @@ const TypingGameComponent = () => {
         tabIndex={0}
       >
         {chars.split("").map((char, index) => {
-          let state = charsState[index];
-          let color = state === 0 ? "black" : state === 1 ? "green" : "red";
+          const state = charsState[index];
+          const color = state === 0 ? "black" : state === 1 ? "green" : "red";
           return (
             <span
               key={index + id}
