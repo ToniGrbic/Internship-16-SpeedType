@@ -6,6 +6,7 @@ const defaultContext = {
   start: () => {},
   stop: () => {},
   reset: () => {},
+  formatTime: () => {},
 };
 
 const StopWatchContext = createContext(defaultContext);
@@ -41,9 +42,19 @@ const StopWatchProvider = ({ children }) => {
     setIsRunning(false);
   };
 
+  const formatTime = () => {
+    let minutes = Math.floor((elapsedTime / (1000 * 60)) % 60);
+    let seconds = Math.floor((elapsedTime / 1000) % 60);
+
+    minutes = String(minutes).padStart(2, "0");
+    seconds = String(seconds).padStart(2, "0");
+
+    return `${minutes}:${seconds}`;
+  };
+
   return (
     <StopWatchContext.Provider
-      value={{ isRunning, elapsedTime, start, stop, reset }}
+      value={{ isRunning, elapsedTime, start, stop, reset, formatTime }}
     >
       {children}
     </StopWatchContext.Provider>
