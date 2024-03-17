@@ -43,7 +43,7 @@ const TypingText = ({
     >
       {chars.split("").map((char, index) => {
         const state = charsState[index];
-        const color = state === 0 ? "black" : state === 1 ? "green" : "red";
+        const color = state === 0 || state === 2 ? "black" : "green";
         const backgroundColor = state === 2 ? "#ff8080" : "transparent";
         return (
           <span
