@@ -5,6 +5,7 @@ import { useGame, GAME_TYPE } from "../../providers/GameProvider";
 import { Box, Tab, Tabs } from "@mui/material";
 import DialogSwitch from "../Dialogs/DialogSwitch";
 import { practiceDialogText } from "../../utils/constants";
+import styles from "./index.module.css";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -53,7 +54,14 @@ const Header = () => {
 
   return (
     <>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: "divider",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <Tabs
           value={value}
           onChange={handleChange}
@@ -63,8 +71,9 @@ const Header = () => {
           <Tab label="Practice" {...a11yProps(1)} />
           <Tab label="New Game" {...a11yProps(2)} />
         </Tabs>
+        <p className={styles["wpm-text"]}>Total WPM: {totalWordsPerMinute}</p>
       </Box>
-      <p>Total WPM: {totalWordsPerMinute}</p>
+
       <DialogSwitch />
       <Outlet />
     </>
