@@ -9,7 +9,7 @@ import { practiceDialogText } from "../../utils/constants";
 const Header = () => {
   const navigate = useNavigate();
   const { open, close } = useDialog();
-  const { selectTexts, setGameType } = useGame();
+  const { selectTexts, setGameType, totalWordsPerMinute } = useGame();
   const [value, setValue] = useState(0);
 
   const handleSubmit = (route, gameType) => {
@@ -64,6 +64,7 @@ const Header = () => {
           <Tab label="New Game" {...a11yProps(2)} />
         </Tabs>
       </Box>
+      <p>Total WPM: {totalWordsPerMinute}</p>
       <DialogSwitch />
       <Outlet />
     </>

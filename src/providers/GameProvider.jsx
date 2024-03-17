@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { randomlySelectTexts } from "../utils/textPicker";
+import { numberOfTexts, randomlySelectTexts } from "../utils/textPicker";
 
 const defaultContext = {
   selectedTexts: [],
@@ -8,11 +8,13 @@ const defaultContext = {
   totalWordsPerMinute: 0,
   gameWordsPerMinute: 0,
   gameType: "",
+  isGameFinished: false,
   nextLevelClick: () => {},
   calculateGameWordsPerMinute: () => {},
   selectTexts: () => {},
   resetGame: () => {},
   setGameType: () => {},
+  setIsGameFinished: () => {},
 };
 
 export const GAME_TYPE = {
@@ -29,6 +31,7 @@ const GameProvider = ({ children }) => {
   const [totalWordsPerMinute, setTotalWordsPerMinute] = useState(0);
   const [gameWordsPerMinute, setGameWordsPerMinute] = useState(0);
   const [gameType, setGameType] = useState(GAME_TYPE.REGULAR);
+  const [isGameFinished, setIsGameFinished] = useState(false);
 
   const selectTexts = () => {
     const selectedTexts = randomlySelectTexts();
@@ -46,16 +49,22 @@ const GameProvider = ({ children }) => {
     setText(selectedTexts[level + 1]);
   };
 
-  const calculateGameWordsPerMinute = (time, text) => {
-    const words = text.split(" ").length;
-    const minutes = time / 60;
-    const wordsPerMinute = words / minutes;
-    setGameWordsPerMinute(wordsPerMinute);
+  const calculateGameWordsPerMinute = (time) => {
+    const currentText = text.text;
+    const numberOfWords = currentText.split(" ").length;
+    const minutes = time / 60000;
+    const wordsPerMinute = numberOfWords / minutes;
+    setGameWordsPerMinute((prev) => Math.round((prev + wordsPerMinute) / 2));
   };
 
   useEffect(() => {
-    setTotalWordsPerMinute((prev) => prev + gameWordsPerMinute / 2);
-  }, [gameWordsPerMinute]);
+    if (!isGameFinished) return;
+
+    setTotalWordsPerMinute((prev) => {
+      if (prev === 0) return gameWordsPerMinute;
+      return Math.round((prev + gameWordsPerMinute) / 2);
+    });
+  }, [isGameFinished]);
 
   return (
     <GameContext.Provider
@@ -66,11 +75,13 @@ const GameProvider = ({ children }) => {
         totalWordsPerMinute,
         gameWordsPerMinute,
         gameType,
+        isGameFinished,
         nextLevelClick,
         calculateGameWordsPerMinute,
         selectTexts,
         resetGame,
         setGameType,
+        setIsGameFinished,
       }}
     >
       {children}

@@ -24,8 +24,7 @@ const TypingGameComponent = () => {
     resetGame,
     setGameType,
     calculateGameWordsPerMinute,
-    gameWordsPerMinute,
-    totalWordsPerMinute,
+    setIsGameFinished,
   } = useGame();
 
   const { id, text } = typingText;
@@ -56,6 +55,7 @@ const TypingGameComponent = () => {
       onSubmitRegular: () => onSubmit(GAME_TYPE.REGULAR),
       onSubmitInstantDeath: () => onSubmit(GAME_TYPE.INSTANT_DEATH),
     });
+    setIsGameFinished(false);
   };
 
   const openConfirmationDialog = () => {
@@ -94,9 +94,11 @@ const TypingGameComponent = () => {
     if (phase !== PhaseType.Ended) return;
     if (level !== numberOfTexts - 1) {
       openConfirmationDialog();
-    } else openResultsDialog();
+    } else {
+      setIsGameFinished(true);
+      openResultsDialog();
+    }
     calculateGameWordsPerMinute(getDuration());
-    console.log(gameWordsPerMinute, totalWordsPerMinute);
   }, [phase]);
 
   return (

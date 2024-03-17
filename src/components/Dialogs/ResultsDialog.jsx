@@ -9,12 +9,12 @@ import {
 import { useGame } from "../../providers/GameProvider";
 
 const ResultsDialog = ({ isOpen, onClose, onSubmit }) => {
-  const { wordsPerMinute, totalWordsPerMinute } = useGame();
+  const { gameWordsPerMinute, totalWordsPerMinute } = useGame();
   return (
     <Dialog open={isOpen}>
       <DialogTitle>Results</DialogTitle>
       <DialogContent>
-        WPM: {wordsPerMinute}
+        WPM: {gameWordsPerMinute}
         <br />
         Total WPM: {totalWordsPerMinute}
       </DialogContent>
