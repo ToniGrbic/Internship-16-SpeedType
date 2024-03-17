@@ -1,12 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import useTypingGame, {
-  PhaseType,
-  CharStateType,
-} from "react-typing-game-hook";
-import styles from "./index.module.css";
+import React, { useEffect } from "react";
+import useTypingGame, { PhaseType } from "react-typing-game-hook";
 import ReplayIcon from "@mui/icons-material/Replay";
 import NextButton from "../Buttons/NextButton/NextButton";
 import Stopwatch from "../Stopwatch";
+import TypingText from "../TypingText";
 import { useGame, GAME_TYPE } from "../../providers/GameProvider";
 import { useDialog, DIALOG } from "../../providers/DialogProvider";
 import { useStopWatch } from "../../providers/StopWatchProvider";
@@ -15,7 +12,6 @@ import { numberOfTexts } from "../../utils/textPicker";
 import { Button, Box } from "@mui/material";
 
 const TypingGameComponent = () => {
-  const textEl = useRef(null);
   const {
     level,
     gameType,
@@ -30,12 +26,23 @@ const TypingGameComponent = () => {
 
   const { id, text } = typingText;
   const { open, close } = useDialog();
-  const { start, stop, reset } = useStopWatch();
+  const { stop, reset } = useStopWatch();
 
   const {
     states: { chars, errorChar, charsState, currIndex, phase },
     actions: { insertTyping, resetTyping, deleteTyping, getDuration },
   } = useTypingGame(text, { skipCurrentWordOnSpace: false });
+
+  const typingTextProps = {
+    chars,
+    charsState,
+    currIndex,
+    phase,
+    id,
+    insertTyping,
+    deleteTyping,
+    resetTyping,
+  };
 
   const onSubmit = (gameType) => {
     close();
@@ -71,23 +78,6 @@ const TypingGameComponent = () => {
     });
   };
 
-  const handleKeyDown = (e) => {
-    const key = e.key;
-    if (phase === PhaseType.NotStarted) start();
-    if (key === "Escape") {
-      resetTyping();
-    } else if (key === "Backspace") {
-      deleteTyping(false);
-    } else if (key.length === 1) {
-      insertTyping(key);
-    }
-    e.preventDefault();
-  };
-
-  useEffect(() => {
-    textEl.current.focus();
-  }, [level]);
-
   useEffect(() => {
     // handles instant death game mode
     if (gameType !== GAME_TYPE.INSTANT_DEATH || errorChar === 0) return;
@@ -96,7 +86,7 @@ const TypingGameComponent = () => {
   }, [charsState]);
 
   useEffect(() => {
-    if (phase !== PhaseType.Ended || errorChar !== 0) return;
+    if (phase !== PhaseType.Ended) return;
     stop();
     if (level !== numberOfTexts - 1) {
       openConfirmationDialog();
@@ -112,26 +102,7 @@ const TypingGameComponent = () => {
       <h1>Game mode: {gameType}</h1>
       <h1>Level: {level + 1}</h1>
       <Stopwatch />
-      <h2
-        className={styles.typingText}
-        ref={textEl}
-        onKeyDown={handleKeyDown}
-        tabIndex={0}
-      >
-        {chars.split("").map((char, index) => {
-          const state = charsState[index];
-          const color = state === 0 ? "black" : state === 1 ? "green" : "red";
-          return (
-            <span
-              key={index + id}
-              style={{ color, marginLeft: "1px" }}
-              className={currIndex === index ? styles.currentLetter : ""}
-            >
-              {char}
-            </span>
-          );
-        })}
-      </h2>
+      <TypingText {...typingTextProps} />
       <Button>
         <ReplayIcon onClick={resetTyping} />
       </Button>
