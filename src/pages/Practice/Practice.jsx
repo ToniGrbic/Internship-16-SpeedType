@@ -1,7 +1,17 @@
 import React from "react";
-
+import { TextField, Box } from "@mui/material";
 const Practice = () => {
-  return <div>Practice</div>;
+  return (
+    <Box sx={{ margin: "2rem 0 0 1rem" }}>
+      <TextField
+        sx={{ width: "90%" }}
+        id="outlined-basic"
+        label="Practice"
+        multiline
+        minRows={5}
+      />
+    </Box>
+  );
 };
 
 export default Practice;
