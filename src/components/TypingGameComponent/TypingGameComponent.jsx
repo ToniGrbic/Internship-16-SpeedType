@@ -4,8 +4,9 @@ import useTypingGame, {
   CharStateType,
 } from "react-typing-game-hook";
 import styles from "./index.module.css";
-import NextButton from "../Buttons/NextButton/NextButton";
 import ReplayIcon from "@mui/icons-material/Replay";
+import NextButton from "../Buttons/NextButton/NextButton";
+import Stopwatch from "../Stopwatch";
 import { useGame, GAME_TYPE } from "../../providers/GameProvider";
 import { useDialog, DIALOG } from "../../providers/DialogProvider";
 import { newLevelDialogText } from "../../utils/constants";
@@ -22,6 +23,9 @@ const TypingGameComponent = () => {
     selectTexts,
     resetGame,
     setGameType,
+    calculateGameWordsPerMinute,
+    gameWordsPerMinute,
+    totalWordsPerMinute,
   } = useGame();
 
   const { id, text } = typingText;
@@ -29,7 +33,7 @@ const TypingGameComponent = () => {
 
   const {
     states: { chars, charsState, currIndex, phase },
-    actions: { insertTyping, resetTyping, deleteTyping },
+    actions: { insertTyping, resetTyping, deleteTyping, getDuration },
   } = useTypingGame(text, { skipCurrentWordOnSpace: false });
 
   const onSubmit = (gameType) => {
@@ -91,12 +95,15 @@ const TypingGameComponent = () => {
     if (level !== numberOfTexts - 1) {
       openConfirmationDialog();
     } else openResultsDialog();
+    calculateGameWordsPerMinute(getDuration());
+    console.log(gameWordsPerMinute, totalWordsPerMinute);
   }, [phase]);
 
   return (
     <>
       <h1>Game mode: {gameType}</h1>
       <h1>Level: {level + 1}</h1>
+      <Stopwatch />
       <h2
         className={styles.typingText}
         ref={textEl}
