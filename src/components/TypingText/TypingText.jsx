@@ -44,10 +44,11 @@ const TypingText = ({
       {chars.split("").map((char, index) => {
         const state = charsState[index];
         const color = state === 0 ? "black" : state === 1 ? "green" : "red";
+        const backgroundColor = state === 2 ? "#ff8080" : "transparent";
         return (
           <span
             key={index + id}
-            style={{ color, marginLeft: "1px" }}
+            style={{ backgroundColor, color, marginLeft: "1px" }}
             className={currIndex === index ? styles.currentLetter : ""}
           >
             {char}
