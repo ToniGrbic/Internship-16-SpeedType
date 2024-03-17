@@ -9,9 +9,10 @@ import NextButton from "../Buttons/NextButton/NextButton";
 import Stopwatch from "../Stopwatch";
 import { useGame, GAME_TYPE } from "../../providers/GameProvider";
 import { useDialog, DIALOG } from "../../providers/DialogProvider";
+import { useStopWatch } from "../../providers/StopWatchProvider";
 import { newLevelDialogText } from "../../utils/constants";
 import { numberOfTexts } from "../../utils/textPicker";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 
 const TypingGameComponent = () => {
   const textEl = useRef(null);
@@ -29,9 +30,10 @@ const TypingGameComponent = () => {
 
   const { id, text } = typingText;
   const { open, close } = useDialog();
+  const { start, stop, reset } = useStopWatch();
 
   const {
-    states: { chars, charsState, currIndex, phase },
+    states: { chars, errorChar, charsState, currIndex, phase },
     actions: { insertTyping, resetTyping, deleteTyping, getDuration },
   } = useTypingGame(text, { skipCurrentWordOnSpace: false });
 
@@ -56,6 +58,7 @@ const TypingGameComponent = () => {
       onSubmitInstantDeath: () => onSubmit(GAME_TYPE.INSTANT_DEATH),
     });
     setIsGameFinished(false);
+    reset();
   };
 
   const openConfirmationDialog = () => {
@@ -70,6 +73,7 @@ const TypingGameComponent = () => {
 
   const handleKeyDown = (e) => {
     const key = e.key;
+    if (phase === PhaseType.NotStarted) start();
     if (key === "Escape") {
       resetTyping();
     } else if (key === "Backspace") {
@@ -85,24 +89,26 @@ const TypingGameComponent = () => {
   }, [level]);
 
   useEffect(() => {
-    if (gameType !== GAME_TYPE.INSTANT_DEATH) return;
-    if (!charsState.includes(CharStateType.Incorrect)) return;
+    // handles instant death game mode
+    if (gameType !== GAME_TYPE.INSTANT_DEATH || errorChar === 0) return;
+    stop();
     openResultsDialog();
   }, [charsState]);
 
   useEffect(() => {
-    if (phase !== PhaseType.Ended) return;
+    if (phase !== PhaseType.Ended || errorChar !== 0) return;
+    stop();
     if (level !== numberOfTexts - 1) {
       openConfirmationDialog();
-    } else {
-      setIsGameFinished(true);
-      openResultsDialog();
+      return;
     }
+    openResultsDialog();
+    setIsGameFinished(true);
     calculateGameWordsPerMinute(getDuration());
   }, [phase]);
 
   return (
-    <>
+    <Box sx={{ padding: "0 1rem" }}>
       <h1>Game mode: {gameType}</h1>
       <h1>Level: {level + 1}</h1>
       <Stopwatch />
@@ -129,8 +135,8 @@ const TypingGameComponent = () => {
       <Button>
         <ReplayIcon onClick={resetTyping} />
       </Button>
-      <NextButton phase={phase} />
-    </>
+      <NextButton phase={phase} errorChar={errorChar} />
+    </Box>
   );
 };
 
