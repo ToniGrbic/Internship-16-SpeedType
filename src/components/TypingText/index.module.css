@@ -1,5 +1,11 @@
-.currentLetter {
-  border-right: solid 1px #000;
+span.currentLetter {
+  border-right-color: #000;
+}
+
+.letter-span {
+  border-right: solid 2px transparent;
+  box-sizing: border-box;
+  font-size: 1.8rem;
 }
 
 .typingText {

@@ -48,8 +48,10 @@ const TypingText = ({
         return (
           <span
             key={index + id}
-            style={{ backgroundColor, color, marginLeft: "1px" }}
-            className={currIndex === index ? styles.currentLetter : ""}
+            style={{ backgroundColor, color }}
+            className={`${styles["letter-span"]} ${
+              currIndex === index ? styles.currentLetter : ""
+            }`}
           >
             {char}
           </span>
