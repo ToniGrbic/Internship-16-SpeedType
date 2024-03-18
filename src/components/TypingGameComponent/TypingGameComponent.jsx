@@ -105,13 +105,13 @@ const TypingGameComponent = () => {
     <Box sx={{ padding: "0 1rem" }}>
       <h1>Game mode: {gameType}</h1>
       <h1>Level: {level + 1}</h1>
-      <Stopwatch />
       <h2>Game WPM: {gameWordsPerMinute}</h2>
+      <Stopwatch />
       <TypingText {...typingTextProps} />
       <Button>
         <ReplayIcon onClick={resetTyping} />
       </Button>
-      <NextButton phase={phase} errorChar={errorChar} />
+      <NextButton phase={phase} charsState={charsState} />
     </Box>
   );
 };
