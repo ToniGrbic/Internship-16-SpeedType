@@ -57,8 +57,12 @@ const GameProvider = ({ children }) => {
     const currentText = text.text;
     const numberOfWords = currentText.split(" ").length;
     const minutes = time / 60000;
-    const wordsPerMinute = numberOfWords / minutes;
-    setGameWordsPerMinute((prev) => Math.round((prev + wordsPerMinute) / 2));
+    const wordsPerMinute = Math.round(numberOfWords / minutes);
+
+    setGameWordsPerMinute((prev) => {
+      if (prev === 0) return wordsPerMinute;
+      return Math.round((prev + wordsPerMinute) / 2);
+    });
   };
 
   useEffect(() => {

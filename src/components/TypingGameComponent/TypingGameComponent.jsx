@@ -16,6 +16,7 @@ const TypingGameComponent = () => {
     level,
     gameType,
     text: typingText,
+    gameWordsPerMinute,
     nextLevelClick,
     setLevelsPassed,
     selectTexts,
@@ -80,12 +81,13 @@ const TypingGameComponent = () => {
   useEffect(() => {
     if (phase !== PhaseType.Ended) return;
     stopClock();
+    calculateGameWordsPerMinute(getDuration());
+
     if (level !== numberOfTexts - 1) {
       openConfirmationDialog();
       return;
     }
     openResultsDialog();
-    calculateGameWordsPerMinute(getDuration());
   }, [phase]);
 
   const typingTextProps = {
@@ -104,6 +106,7 @@ const TypingGameComponent = () => {
       <h1>Game mode: {gameType}</h1>
       <h1>Level: {level + 1}</h1>
       <Stopwatch />
+      <h2>Game WPM: {gameWordsPerMinute}</h2>
       <TypingText {...typingTextProps} />
       <Button>
         <ReplayIcon onClick={resetTyping} />
