@@ -16,11 +16,11 @@ const TypingText = ({
 }) => {
   const textEl = useRef(null);
   const { level } = useGame();
-  const { start } = useStopWatch();
+  const { startClock } = useStopWatch();
 
   const handleKeyDown = (e) => {
     const key = e.key;
-    if (phase === PhaseType.NotStarted) start();
+    if (phase === PhaseType.NotStarted) startClock();
     if (key === "Escape") {
       resetTyping();
     } else if (key === "Backspace") {
