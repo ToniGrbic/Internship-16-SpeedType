@@ -34,17 +34,6 @@ const TypingGameComponent = () => {
     actions: { insertTyping, resetTyping, deleteTyping, getDuration },
   } = useTypingGame(text, { skipCurrentWordOnSpace: false });
 
-  const typingTextProps = {
-    chars,
-    charsState,
-    currIndex,
-    phase,
-    id,
-    insertTyping,
-    deleteTyping,
-    resetTyping,
-  };
-
   const onSubmit = (gameType) => {
     close();
     setGameType(gameType);
@@ -58,6 +47,8 @@ const TypingGameComponent = () => {
         openNewGameDialog();
       },
     });
+    setLevelsPassed((prev) => prev + 1);
+    setIsGameFinished(true);
   };
 
   const openNewGameDialog = () => {
@@ -94,10 +85,19 @@ const TypingGameComponent = () => {
       return;
     }
     openResultsDialog();
-    setLevelsPassed((prev) => prev + 1);
-    setIsGameFinished(true);
     calculateGameWordsPerMinute(getDuration());
   }, [phase]);
+
+  const typingTextProps = {
+    chars,
+    charsState,
+    currIndex,
+    phase,
+    id,
+    insertTyping,
+    deleteTyping,
+    resetTyping,
+  };
 
   return (
     <Box sx={{ padding: "0 1rem" }}>
