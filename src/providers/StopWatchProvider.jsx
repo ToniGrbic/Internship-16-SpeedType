@@ -3,9 +3,9 @@ import { createContext, useContext, useState, useRef, useEffect } from "react";
 const defaultContext = {
   isRunning: false,
   elapsedTime: 0,
-  start: () => {},
-  stop: () => {},
-  reset: () => {},
+  startClock: () => {},
+  stopClock: () => {},
+  resetClock: () => {},
   formatTime: () => {},
 };
 
@@ -28,16 +28,16 @@ const StopWatchProvider = ({ children }) => {
     };
   }, [isRunning]);
 
-  const start = () => {
+  const startClock = () => {
     setIsRunning(true);
     startTimeRef.current = Date.now() - elapsedTime;
   };
 
-  const stop = () => {
+  const stopClock = () => {
     setIsRunning(false);
   };
 
-  const reset = () => {
+  const resetClock = () => {
     setElapsedTime(0);
     setIsRunning(false);
   };
@@ -54,7 +54,14 @@ const StopWatchProvider = ({ children }) => {
 
   return (
     <StopWatchContext.Provider
-      value={{ isRunning, elapsedTime, start, stop, reset, formatTime }}
+      value={{
+        isRunning,
+        elapsedTime,
+        startClock,
+        stopClock,
+        resetClock,
+        formatTime,
+      }}
     >
       {children}
     </StopWatchContext.Provider>
