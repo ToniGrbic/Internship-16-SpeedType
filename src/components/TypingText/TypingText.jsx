@@ -65,9 +65,9 @@ const TypingText = ({
       >
         {chars.split("").map((char, index) => {
           const state = charsState[index];
-          const color = state === CharStateType.Correct ? "green" : "black";
+          const color = state === CharStateType.Correct ? "green" : "#a6a6a6";
           const backgroundColor =
-            state === CharStateType.Incorrect ? "#ff8080" : "transparent";
+            state === CharStateType.Incorrect ? "#9c2131" : "transparent";
 
           return (
             <span

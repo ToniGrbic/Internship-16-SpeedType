@@ -78,8 +78,8 @@ const Header = () => {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Practice" {...a11yProps(0)} />
-          <Tab label="New Game" {...a11yProps(1)} />
+          <Tab sx={{ color: "white" }} label="Practice" {...a11yProps(0)} />
+          <Tab sx={{ color: "white" }} label="New Game" {...a11yProps(1)} />
         </Tabs>
         <div className={styles["header-stats-container"]}>
           <p className={styles["wpm-text"]}>Total WPM: {totalWordsPerMinute}</p>

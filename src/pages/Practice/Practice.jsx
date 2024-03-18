@@ -9,6 +9,9 @@ const Practice = () => {
         label="Practice"
         multiline
         minRows={5}
+        InputLabelProps={{
+          style: { color: "#fff" },
+        }}
       />
     </Box>
   );
