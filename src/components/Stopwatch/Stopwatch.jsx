@@ -1,14 +1,20 @@
 import React from "react";
 import { useStopWatch } from "../../providers/StopWatchProvider";
-import styles from "./index.module.css";
+import { Box } from "@mui/material";
 
 const Stopwatch = () => {
   const { formatTime } = useStopWatch();
 
   return (
-    <div>
-      <div>{formatTime()}</div>
-    </div>
+    <Box
+      sx={{
+        fontSize: "1.8rem",
+        fontWeight: "bold",
+        textAlign: "center",
+      }}
+    >
+      {formatTime()}
+    </Box>
   );
 };
 export default Stopwatch;
