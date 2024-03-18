@@ -1,3 +1,7 @@
 .wpm-text {
   margin-right: 1rem;
 }
+
+.header-stats-container {
+  display: flex;
+}

@@ -10,16 +10,21 @@ import { useStopWatch } from "../../providers/StopWatchProvider";
 
 const Header = () => {
   const navigate = useNavigate();
-  const { reset } = useStopWatch();
+  const { resetClock } = useStopWatch();
   const { open, close } = useDialog();
-  const { selectTexts, setGameType, resetGame, totalWordsPerMinute } =
-    useGame();
+  const {
+    selectTexts,
+    setGameType,
+    resetGame,
+    totalWordsPerMinute,
+    levelsPassed,
+  } = useGame();
 
   const [value, setValue] = useState(0);
 
   const handleSubmit = (route, gameType = null) => {
     close();
-    reset();
+    resetClock();
     resetGame();
     setGameType(gameType);
     selectTexts();
@@ -77,7 +82,10 @@ const Header = () => {
           <Tab label="Practice" {...a11yProps(1)} />
           <Tab label="New Game" {...a11yProps(2)} />
         </Tabs>
-        <p className={styles["wpm-text"]}>Total WPM: {totalWordsPerMinute}</p>
+        <div className={styles["header-stats-container"]}>
+          <p className={styles["wpm-text"]}>Total WPM: {totalWordsPerMinute}</p>
+          <p className={styles["wpm-text"]}>Levels Passed: {levelsPassed}</p>
+        </div>
       </Box>
 
       <DialogSwitch />

@@ -17,6 +17,7 @@ const TypingGameComponent = () => {
     gameType,
     text: typingText,
     nextLevelClick,
+    setLevelsPassed,
     selectTexts,
     resetGame,
     setGameType,
@@ -26,7 +27,7 @@ const TypingGameComponent = () => {
 
   const { id, text } = typingText;
   const { open, close } = useDialog();
-  const { stop, reset } = useStopWatch();
+  const { stopClock, resetClock } = useStopWatch();
 
   const {
     states: { chars, errorChar, charsState, currIndex, phase },
@@ -65,7 +66,7 @@ const TypingGameComponent = () => {
       onSubmitInstantDeath: () => onSubmit(GAME_TYPE.INSTANT_DEATH),
     });
     setIsGameFinished(false);
-    reset();
+    resetClock();
   };
 
   const openConfirmationDialog = () => {
@@ -81,18 +82,19 @@ const TypingGameComponent = () => {
   useEffect(() => {
     // handles instant death game mode
     if (gameType !== GAME_TYPE.INSTANT_DEATH || errorChar === 0) return;
-    stop();
+    stopClock();
     openResultsDialog();
   }, [charsState]);
 
   useEffect(() => {
     if (phase !== PhaseType.Ended) return;
-    stop();
+    stopClock();
     if (level !== numberOfTexts - 1) {
       openConfirmationDialog();
       return;
     }
     openResultsDialog();
+    setLevelsPassed((prev) => prev + 1);
     setIsGameFinished(true);
     calculateGameWordsPerMinute(getDuration());
   }, [phase]);
