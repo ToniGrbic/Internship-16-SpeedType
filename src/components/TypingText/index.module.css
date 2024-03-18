@@ -8,6 +8,11 @@ span.currentLetter {
   font-size: 1.8rem;
 }
 
+.incorrect-chars-message {
+  font-size: 1.3rem;
+  margin-top: 1rem;
+}
+
 .typingText {
   padding: 1rem;
 }
