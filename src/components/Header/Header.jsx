@@ -44,12 +44,12 @@ const Header = () => {
 
   const openPractice = () => {
     open(DIALOG.CONFIRMATION, {
-      onSubmit: () => handleSubmit("/practice"),
+      onSubmit: () => handleSubmit("/"),
       text: practiceDialogText,
     });
   };
 
-  const navigationOptions = [() => navigate("/"), openPractice, openNewGame];
+  const navigationOptions = [openPractice, openNewGame];
 
   const handleChange = (e, index) => {
     setValue(index);
@@ -78,9 +78,8 @@ const Header = () => {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Home" {...a11yProps(0)} />
-          <Tab label="Practice" {...a11yProps(1)} />
-          <Tab label="New Game" {...a11yProps(2)} />
+          <Tab label="Practice" {...a11yProps(0)} />
+          <Tab label="New Game" {...a11yProps(1)} />
         </Tabs>
         <div className={styles["header-stats-container"]}>
           <p className={styles["wpm-text"]}>Total WPM: {totalWordsPerMinute}</p>
