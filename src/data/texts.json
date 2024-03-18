@@ -1,42 +1,42 @@
 [
   {
-    "id": 0,
-    "text": "This is a sample text for id 1. It is designed to be less than 200 characters long."
-  },
-  {
     "id": 1,
-    "text": "This is a sample text for id 2. It is designed to be less than 200 characters long."
+    "text": "The only thing we have to fear is fear itself. - Franklin D. Roosevelt"
   },
   {
     "id": 2,
-    "text": "This is a sample text for id 3. It is designed to be less than 200 characters long."
+    "text": "Life is what happens when you're busy making other plans. - John Lennon"
   },
   {
     "id": 3,
-    "text": "This is a sample text for id 4. It is designed to be less than 200 characters long."
+    "text": "The purpose of our lives is to be happy. - Dalai Lama"
   },
   {
     "id": 4,
-    "text": "This is a sample text for id 5. It is designed to be less than 200 characters long."
+    "text": "In the end, it's not the years in your life that count. It's the life in your years. - Abraham Lincoln"
   },
   {
     "id": 5,
-    "text": "This is a sample text for id 6. It is designed to be less than 200 characters long."
+    "text": "Life is either a daring adventure or nothing at all. - Helen Keller"
   },
   {
     "id": 6,
-    "text": "This is a sample text for id 7. It is designed to be less than 200 characters long."
+    "text": "The best way to predict your future is to create it. - Abraham Lincoln"
   },
   {
     "id": 7,
-    "text": "This is a sample text for id 8. It is designed to be less than 200 characters long."
+    "text": "You only live once, but if you do it right, once is enough. - Mae West"
   },
   {
     "id": 8,
-    "text": "This is a sample text for id 9. It is designed to be less than 200 characters long."
+    "text": "In three words I can sum up everything I've learned about life: it goes on. - Robert Frost"
   },
   {
     "id": 9,
-    "text": "This is a sample text for id 10. It is designed to be less than 200 characters long."
+    "text": "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment. - Ralph Waldo Emerson"
+  },
+  {
+    "id": 10,
+    "text": "The greatest glory in living lies not in never falling, but in rising every time we fall. - Nelson Mandela"
   }
 ]
