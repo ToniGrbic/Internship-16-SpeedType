@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import useTypingGame, { PhaseType } from "react-typing-game-hook";
 import ReplayIcon from "@mui/icons-material/Replay";
-import NextButton from "../Buttons/NextButton/NextButton";
+import NextButton from "../Buttons/NextButton";
 import Stopwatch from "../Stopwatch";
 import TypingText from "../TypingText";
 import { useGame, GAME_TYPE } from "../../providers/GameProvider";
